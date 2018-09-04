@@ -1,5 +1,6 @@
 import * as React from 'react';
-import Form from './Form';
+// import Form from './Form';
+import Field, {IFieldState} from './Field';
 import './App.css';
 
 import RxForm from './RxForm';
@@ -15,9 +16,10 @@ class App extends React.Component {
   constructor(props: any) {
     super(props);
 
-    this.form = new RxForm([
-      new RxField('firstName', 'text', 'dfgs'),
-    ]);
+    this.form = new RxForm({
+      firstName: new RxField('Alex'),
+      lastName: new RxField('Cherman'),
+    });
   }
 
   public render() {
@@ -27,13 +29,9 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Form form={this.form}>
-          {(form: RxForm) => {
-            return <React.Fragment>
-            <input {...form.controls.firstName.getInputProps()} />
-            </React.Fragment>;
-          }}
-        </Form>
+        <Field control={this.form.controls.firstName}>
+          {(state: IFieldState, {handleInputChange}) => <label>First name:<input type="text" value={state.value} onChange={handleInputChange}/></label>}
+        </Field>
       </div>
     );
   }

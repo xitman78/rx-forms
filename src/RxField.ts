@@ -7,10 +7,14 @@ class RxField {
 
   private value: any;
   private subscribers: Array<Subject<RxInputEvent>> = [];
+  private initialValue: any;
+  private name: string;
 
-  constructor(private name: string, private type: string, initValue = '') {
+  constructor(initValue = '') {
     /*this.name = name;
     this.type = type;*/
+    this.name = '__undefined__';
+    this.initialValue = initValue;
     this.value = initValue;
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -20,21 +24,20 @@ class RxField {
     return this.name;
   }
 
-  public getType() {
-    return this.type;
+  public setName(name: string) {
+    this.name = name;
   }
+
+  public resetValue() {
+    this.value = this.initialValue;
+  }
+
+ /* public getType() {
+    return this.type;
+  }*/
 
   public getValue() {
     return this.value;
-  }
-
-  public getInputProps() {
-    return {
-      type: this.type,
-      name: this.name,
-      value: this.value,
-      onChange: this.handleInputChange,
-    };
   }
 
   private handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {

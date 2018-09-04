@@ -13,14 +13,14 @@ class RxForm {
     [name: string]: RxField;
   } = {};
 
-  private fields: RxField[];
+ // private fields: RxField[];
 
   private observer: Observable<RxInputEvent>;
+
   private subject: Subject<RxInputEvent>;
 
 
-  constructor(fields: RxField[] = []) {
-    this.fields = fields;
+  constructor(fieldsMap: {[key: string]: RxField} = {}) {
 
     this.subject = new Subject();
 
@@ -28,15 +28,17 @@ class RxForm {
       this.subject.subscribe(observer);
     });
 
-    fields.forEach(field => {
-      this.controls[field.getName()] = field;
-      field.subscribe(this.subject);
+    this.controls = fieldsMap;
+
+    Object.keys(fieldsMap).forEach(fieldName => {
+      this.controls[fieldName].setName(fieldName);
+      //field.subscribe(this.subject);
     });
   }
 
-  public getFields() {
+ /* public getFields() {
     return this.fields;
-  }
+  }*/
 
   public getObserver() {
     return this.observer;
