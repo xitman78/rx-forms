@@ -29,8 +29,22 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+        <br />
+        <br />
         <Field control={this.form.controls.firstName}>
           {(state: IFieldState, {handleInputChange}) => <label>First name:<input type="text" value={state.value} onChange={handleInputChange}/></label>}
+        </Field>
+
+        <br />
+        <hr />
+        <Field control={this.form.controls.lastName}>
+          {(state: IFieldState, {handleInputChange}) => <label>Last name:<input type="text" value={state.value} onChange={handleInputChange}/></label>}
+        </Field>
+
+        <br />
+        <hr />
+        <Field control={this.form.controls.lastName}>
+          {(state: IFieldState) => <h1>{state.value}</h1>}
         </Field>
       </div>
     );

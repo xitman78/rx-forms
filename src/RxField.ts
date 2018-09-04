@@ -1,23 +1,39 @@
-import * as React from 'react';
+// import * as React from 'react';
 import {Subject} from 'rxjs';
 
 import {RxInputEvent} from './RxForm';
+import {Observable} from 'rxjs/internal/Observable';
+import {IFieldState} from './Field';
 
 class RxField {
 
   private value: any;
-  private subscribers: Array<Subject<RxInputEvent>> = [];
   private initialValue: any;
   private name: string;
+  private touched: boolean;
+  private dirty: boolean;
+  private valid: boolean;
+  private errorMessage: string;
+
+  private subject: Subject<IFieldState>;
+  private observer: Observable<IFieldState>;
 
   constructor(initValue = '') {
     /*this.name = name;
     this.type = type;*/
     this.name = '__undefined__';
+    this.touched = false;
+    this.dirty = false;
+    this.valid = true;
+    this.errorMessage = '';
     this.initialValue = initValue;
     this.value = initValue;
 
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.subject = new Subject();
+
+    this.observer = new Observable<IFieldState>(observer => {
+      this.subject.subscribe(observer);
+    });
   }
 
   public getName() {
@@ -32,33 +48,43 @@ class RxField {
     this.value = this.initialValue;
   }
 
- /* public getType() {
-    return this.type;
-  }*/
-
   public getValue() {
     return this.value;
   }
 
-  private handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.value = event.target.value;
+  public handleInputEvent(event: RxInputEvent) {
+    this.value = event.value;
+    // TODO: validation workflow
 
-    this.subscribers.forEach(subject => {
-      subject.next(this.value);
-    });
+    const state: IFieldState = {
+      touched: true,
+      dirty: true,
+      valid: true,
+      invalid: true,
+      value: this.value,
+      fieldName: this.name,
+      errorMessage: '',
+    };
+
+    this.subject.next(state);
+  };
+
+  public getState(): IFieldState {
+    return {
+      touched: this.touched,
+      dirty: this.dirty,
+      valid: this.valid,
+      invalid: !this.valid,
+      value: this.value,
+      fieldName: this.name,
+      errorMessage: this.errorMessage,
+    };
   }
 
-  public subscribe(subject: Subject<RxInputEvent>) {
-    this.subscribers.push(subject);
+  public subscribe(cb: (state: IFieldState) => void) {
+    return this.observer.subscribe(cb);
   }
 
- /* public subscribe() {
-
-  }
-
-  public unsubscribe() {
-
-  }*/
 }
 
 export default RxField;

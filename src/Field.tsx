@@ -1,15 +1,7 @@
 import * as React from 'react';
 // import RxForm from './RxForm';
 import RxField from './RxField';
-
-interface IRenderProps {
-  touched: boolean;
-  dirty: boolean;
-  valid: boolean;
-  invalid: boolean;
-  value: any;
-  errorMassage: string;
-}
+import {Subscription} from 'rxjs/internal/Subscription';
 
 export interface IFieldInputHandlers {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -17,7 +9,7 @@ export interface IFieldInputHandlers {
 
 interface IProps {
   control: RxField;
-  children: (state: IRenderProps, handlers: IFieldInputHandlers) => any;
+  children: (state: IFieldState, handlers: IFieldInputHandlers) => any;
 }
 
 export interface IFieldState {
@@ -27,37 +19,51 @@ export interface IFieldState {
   invalid: boolean;
   value: any;
   fieldName: string | null;
-  errorMassage: string;
+  errorMessage: string;
 }
 
 class Field extends React.Component<IProps, IFieldState> {
 
   handlers: IFieldInputHandlers;
+  private readonly subscription?: Subscription;
 
   constructor(props: any) {
     super(props);
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
 
-    this.state = {
+    this.state = props.control ? {...props.control.getState()} : {
       touched: false,
       dirty: false,
-      valid: true, // TODO: remake it
-      invalid: false,
-      value: props.control ? props.control.getValue() : '',
-      errorMassage: '',
-      fieldName: props.control ? props.control.getName() : '__undefined__',
+      valid: false, // TODO: remake it
+      invalid: true,
+      value: '',
+      errorMessage: 'INVALID CONTROL',
+      fieldName: '__undefined__',
     };
 
     this.handlers = {
       handleInputChange: this.handleInputChange,
+    };
+
+    if (props.control) {
+      this.subscription = props.control.subscribe(this.handleStateChange);
     }
   }
 
+  componentWillUnmount() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  private handleStateChange(state: IFieldState) {
+    this.setState({...state});
+  }
+
   public handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      value: event.target.value,
-    });
+    this.props.control.handleInputEvent({value: event.target.value})
   }
 
   render() {

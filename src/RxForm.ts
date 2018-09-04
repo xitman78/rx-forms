@@ -1,10 +1,9 @@
 import RxField from './RxField';
 import {Observable} from 'rxjs/internal/Observable';
-import {Subject} from 'rxjs';
+import {Subject} from 'rxjs/internal/Subject';
 
 export interface RxInputEvent {
-  fieldName: string;
-  fieldValue: any;
+  value: any;
 }
 
 class RxForm {
@@ -12,8 +11,6 @@ class RxForm {
   public controls: {
     [name: string]: RxField;
   } = {};
-
- // private fields: RxField[];
 
   private observer: Observable<RxInputEvent>;
 
@@ -32,13 +29,9 @@ class RxForm {
 
     Object.keys(fieldsMap).forEach(fieldName => {
       this.controls[fieldName].setName(fieldName);
-      //field.subscribe(this.subject);
     });
   }
 
- /* public getFields() {
-    return this.fields;
-  }*/
 
   public getObserver() {
     return this.observer;
