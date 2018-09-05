@@ -1,28 +1,18 @@
 import * as React from 'react';
 // import RxForm from './RxForm';
-import RxField from './RxField';
+import RxField from '../RxField';
 import {Subscription} from 'rxjs/internal/Subscription';
+import {IFieldState, IFieldInputHandlers} from '../types';
 
-export interface IFieldInputHandlers {
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-}
 
 interface IProps {
   control: RxField;
   children: (state: IFieldState, handlers: IFieldInputHandlers) => any;
 }
 
-export interface IFieldState {
-  touched: boolean;
-  dirty: boolean;
-  valid: boolean;
-  invalid: boolean;
-  value: any;
-  fieldName: string | null;
-  errorMessage: string;
-}
 
-class Field extends React.Component<IProps, IFieldState> {
+
+class FieldState extends React.Component<IProps, IFieldState> {
 
   handlers: IFieldInputHandlers;
   private readonly subscription?: Subscription;
@@ -77,4 +67,4 @@ class Field extends React.Component<IProps, IFieldState> {
   }
 }
 
-export default Field;
+export default FieldState;

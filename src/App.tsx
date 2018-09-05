@@ -1,10 +1,8 @@
 import * as React from 'react';
 // import Form from './Form';
-import Field, {IFieldState} from './Field';
 import './App.css';
 
-import RxForm from './RxForm';
-import RxField from './RxField';
+import {RxForm, RxField, FieldState, IFieldState} from './lib';
 
 import logo from './logo.svg';
 
@@ -31,21 +29,21 @@ class App extends React.Component {
         </header>
         <br />
         <br />
-        <Field control={this.form.controls.firstName}>
+        <FieldState control={this.form.controls.firstName}>
           {(state: IFieldState, {handleInputChange}) => <label>First name:<input type="text" value={state.value} onChange={handleInputChange}/></label>}
-        </Field>
+        </FieldState>
 
         <br />
         <hr />
-        <Field control={this.form.controls.lastName}>
+        <FieldState control={this.form.controls.lastName}>
           {(state: IFieldState, {handleInputChange}) => <label>Last name:<input type="text" value={state.value} onChange={handleInputChange}/></label>}
-        </Field>
+        </FieldState>
 
         <br />
         <hr />
-        <Field control={this.form.controls.lastName}>
+        <FieldState control={this.form.controls.lastName}>
           {(state: IFieldState) => <h1>{state.value}</h1>}
-        </Field>
+        </FieldState>
       </div>
     );
   }

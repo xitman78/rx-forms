@@ -3,7 +3,7 @@ import {Subject} from 'rxjs';
 
 import {RxInputEvent} from './RxForm';
 import {Observable} from 'rxjs/internal/Observable';
-import {IFieldState} from './Field';
+import {IFieldState} from './types';
 
 class RxField {
 

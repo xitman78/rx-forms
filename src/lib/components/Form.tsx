@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RxForm from './RxForm';
+import RxForm from '../RxForm';
 
 interface IProps {
   form: RxForm;
