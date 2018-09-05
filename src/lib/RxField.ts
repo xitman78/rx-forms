@@ -3,7 +3,7 @@ import {Subject} from 'rxjs';
 
 import {RxInputEvent} from './RxForm';
 import {Observable} from 'rxjs/internal/Observable';
-import {IFieldState} from './types';
+import {IFieldState, RxValidator} from './types';
 
 class RxField {
 
@@ -13,19 +13,19 @@ class RxField {
   private touched: boolean;
   private dirty: boolean;
   private valid: boolean;
-  private errorMessage: string;
+  private errorMessages: string[];
 
   private subject: Subject<IFieldState>;
   private observer: Observable<IFieldState>;
 
-  constructor(initValue = '') {
+  constructor(initValue = '', private validators: RxValidator[] = []) {
     /*this.name = name;
     this.type = type;*/
     this.name = '__undefined__';
     this.touched = false;
     this.dirty = false;
     this.valid = true;
-    this.errorMessage = '';
+    this.errorMessages = [];
     this.initialValue = initValue;
     this.value = initValue;
 
@@ -36,10 +36,6 @@ class RxField {
     });
   }
 
-  public getName() {
-    return this.name;
-  }
-
   public setName(name: string) {
     this.name = name;
   }
@@ -48,28 +44,20 @@ class RxField {
     this.value = this.initialValue;
   }
 
-  public getValue() {
-    return this.value;
-  }
-
   public handleInputEvent(event: RxInputEvent) {
     this.value = event.value;
-    // TODO: validation workflow
 
-    const state: IFieldState = {
-      touched: true,
-      dirty: true,
-      valid: true,
-      invalid: true,
-      value: this.value,
-      fieldName: this.name,
-      errorMessage: '',
-    };
+    this.validateValue();
+
+    const state = this.getState();
 
     this.subject.next(state);
   };
 
   public getState(): IFieldState {
+
+    this.validateValue();
+
     return {
       touched: this.touched,
       dirty: this.dirty,
@@ -77,12 +65,21 @@ class RxField {
       invalid: !this.valid,
       value: this.value,
       fieldName: this.name,
-      errorMessage: this.errorMessage,
+      errorMessages: this.errorMessages,
     };
   }
 
   public subscribe(cb: (state: IFieldState) => void) {
     return this.observer.subscribe(cb);
+  }
+
+  private validateValue() {
+
+    this.errorMessages = this.validators ? this.validators.map(validator => validator(this.value)).filter(error => !!error) as string[] : [];
+    if (this.errorMessages.length > 0) {
+      this.valid = false;
+    }
+
   }
 
 }

@@ -7,9 +7,14 @@ export interface IFieldState {
   invalid: boolean;
   value: any;
   fieldName: string | null;
-  errorMessage: string;
+  errorMessages: string[];
 }
 
 export interface IFieldInputHandlers {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
+
+/**
+ * Type for synchronous validators - if value is valid return null otherwise text string with error message
+ */
+export type RxValidator = (value: any) => string | null;
