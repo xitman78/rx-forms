@@ -42,10 +42,20 @@ class RxField {
 
   public resetValue() {
     this.value = this.initialValue;
+    this.dirty = false;
+
+    this.validateValue();
+
+    const state = this.getState();
+
+    this.subject.next(state);
+
   }
 
   public handleInputEvent(event: RxInputEvent) {
     this.value = event.value;
+    this.touched = true;
+    this.dirty = this.value !== this.initialValue;
 
     this.validateValue();
 
@@ -76,9 +86,8 @@ class RxField {
   private validateValue() {
 
     this.errorMessages = this.validators ? this.validators.map(validator => validator(this.value)).filter(error => !!error) as string[] : [];
-    if (this.errorMessages.length > 0) {
-      this.valid = false;
-    }
+
+    this.valid = this.errorMessages.length === 0;
 
   }
 
