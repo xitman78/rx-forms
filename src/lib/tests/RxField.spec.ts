@@ -1,11 +1,11 @@
 import {RxField, Validators} from '../index';
 
-it('Should create control with right state' ,() => {
+it('Should create control with right state after control creation' ,() => {
   const control = new RxField('');
 
   control.setName('testControl');
 
-  let state = control.getState();
+  const state = control.getState();
 
   expect(state.fieldName).toBe('testControl');
   expect(state.touched).toBeFalsy();
@@ -14,9 +14,16 @@ it('Should create control with right state' ,() => {
   expect(state.valid).toBe(true);
   expect(state.invalid).toBe(false);
 
+});
+
+it('Should have correct state after handling text input' ,() => {
+  const control = new RxField('');
+
+  control.setName('testControl');
+
   control.handleInputEvent({value: 'abc'});
 
-  state = control.getState();
+  const state = control.getState();
 
   expect(state.touched).toBeTruthy();
   expect(state.dirty).toBeTruthy();
