@@ -1,18 +1,17 @@
 import * as React from 'react';
-// import RxForm from './RxForm';
-import RxField from '../RxField';
+import RxControl from '../RxControl';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {IFieldState, IFieldInputHandlers} from '../types';
+import {IControlState, IFieldInputHandlers} from '../types';
 
 
 interface IProps {
-  control: RxField;
-  children: (state: IFieldState, handlers: IFieldInputHandlers) => any;
+  control: RxControl;
+  children: (state: IControlState, handlers: IFieldInputHandlers) => any;
 }
 
 
 
-class FieldState extends React.Component<IProps, IFieldState> {
+class FieldState extends React.Component<IProps, IControlState> {
 
   handlers: IFieldInputHandlers;
   private readonly subscription?: Subscription;
@@ -30,7 +29,7 @@ class FieldState extends React.Component<IProps, IFieldState> {
       invalid: true,
       value: '',
       errorMessage: 'INVALID CONTROL',
-      fieldName: '__undefined__',
+      controlName: '__undefined__',
     };
 
     this.handlers = {
@@ -48,12 +47,12 @@ class FieldState extends React.Component<IProps, IFieldState> {
     }
   }
 
-  private handleStateChange(state: IFieldState) {
+  private handleStateChange(state: IControlState) {
     this.setState({...state});
   }
 
   public handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    this.props.control.handleInputEvent({value: event.target.value})
+    this.props.control.handleInputEvent(event.target.value);
   }
 
   render() {

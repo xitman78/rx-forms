@@ -2,7 +2,7 @@ import * as React from 'react';
 // import Form from './Form';
 import './App.css';
 
-import {RxForm, RxField, FieldState, IFieldState, Validators} from './lib';
+import {RxForm, RxControl, FieldState, IControlState, Validators} from './lib';
 
 import logo from './logo.svg';
 
@@ -15,8 +15,8 @@ class App extends React.Component {
     super(props);
 
     this.form = new RxForm({
-      firstName: new RxField('Alex', [Validators.required]),
-      lastName: new RxField('Cherman', [Validators.required]),
+      firstName: new RxControl('Alex', [Validators.required]),
+      lastName: new RxControl('Cherman', [Validators.required]),
     });
   }
 
@@ -30,7 +30,7 @@ class App extends React.Component {
         <br />
         <br />
         <FieldState control={this.form.controls.firstName}>
-          {(state: IFieldState, {handleInputChange}) => <label>
+          {(state: IControlState, {handleInputChange}) => <label>
             First name:<input type="text" value={state.value} onChange={handleInputChange}/>
               {state.invalid && state.errorMessages.join(', ')}
           </label>}
@@ -39,7 +39,7 @@ class App extends React.Component {
         <br />
         <hr />
         <FieldState control={this.form.controls.lastName}>
-          {(state: IFieldState, {handleInputChange}) => <label>
+          {(state: IControlState, {handleInputChange}) => <label>
             Last name:<input type="text" value={state.value} onChange={handleInputChange}/>
               {state.invalid && state.errorMessages.join(', ')}
           </label>}
@@ -48,7 +48,7 @@ class App extends React.Component {
         <br />
         <hr />
         <FieldState control={this.form.controls.lastName}>
-          {(state: IFieldState) => <h1>{state.value}</h1>}
+          {(state: IControlState) => <h1>{state.value}</h1>}
         </FieldState>
       </div>
     );

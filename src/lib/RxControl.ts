@@ -1,11 +1,10 @@
 // import * as React from 'react';
 import {Subject} from 'rxjs';
 
-import {RxInputEvent} from './RxForm';
 import {Observable} from 'rxjs/internal/Observable';
-import {IFieldState, RxValidator} from './types';
+import {IControlState, RxValidator} from './types';
 
-class RxField {
+class RxControl {
 
   private value: any;
   private initialValue: any;
@@ -15,12 +14,10 @@ class RxField {
   private valid: boolean;
   private errorMessages: string[];
 
-  private subject: Subject<IFieldState>;
-  private observer: Observable<IFieldState>;
+  private subject: Subject<IControlState>;
+  private observer: Observable<IControlState>;
 
   constructor(initValue = '', private validators: RxValidator[] = []) {
-    /*this.name = name;
-    this.type = type;*/
     this.name = '__undefined__';
     this.touched = false;
     this.dirty = false;
@@ -31,7 +28,7 @@ class RxField {
 
     this.subject = new Subject();
 
-    this.observer = new Observable<IFieldState>(observer => {
+    this.observer = new Observable<IControlState>(observer => {
       this.subject.subscribe(observer);
     });
   }
@@ -52,8 +49,8 @@ class RxField {
 
   }
 
-  public handleInputEvent(event: RxInputEvent) {
-    this.value = event.value;
+  public handleInputEvent(value: any) {
+    this.value = value;
     this.touched = true;
     this.dirty = this.value !== this.initialValue;
 
@@ -64,7 +61,8 @@ class RxField {
     this.subject.next(state);
   };
 
-  public getState(): IFieldState {
+
+  public getState(): IControlState {
 
     this.validateValue();
 
@@ -74,12 +72,13 @@ class RxField {
       valid: this.valid,
       invalid: !this.valid,
       value: this.value,
-      fieldName: this.name,
+      controlName: this.name,
       errorMessages: this.errorMessages,
     };
   }
 
-  public subscribe(cb: (state: IFieldState) => void) {
+  // can be moved to basic class
+  public subscribe(cb: (state: IControlState) => void) {
     return this.observer.subscribe(cb);
   }
 
@@ -93,4 +92,4 @@ class RxField {
 
 }
 
-export default RxField;
+export default RxControl;

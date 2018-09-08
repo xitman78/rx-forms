@@ -17,11 +17,6 @@ class Form extends React.Component<IProps, IState> {
     this.state = {};
   }
 
-  componentDidMount() {
-    this.props.form.getObserver().subscribe(s => {
-      this.forceUpdate();
-    });
-  }
 
   public render() {
     return (

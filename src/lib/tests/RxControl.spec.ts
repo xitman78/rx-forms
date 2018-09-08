@@ -1,13 +1,13 @@
-import {RxField, Validators} from '../index';
+import {RxControl, Validators} from '../index';
 
 it('Should create control with right state after control creation' ,() => {
-  const control = new RxField('');
+  const control = new RxControl('');
 
   control.setName('testControl');
 
   const state = control.getState();
 
-  expect(state.fieldName).toBe('testControl');
+  expect(state.controlName).toBe('testControl');
   expect(state.touched).toBeFalsy();
   expect(state.dirty).toBeFalsy();
   expect(state.value).toBe('');
@@ -17,11 +17,11 @@ it('Should create control with right state after control creation' ,() => {
 });
 
 it('Should have correct state after handling text input' ,() => {
-  const control = new RxField('');
+  const control = new RxControl('');
 
   control.setName('testControl');
 
-  control.handleInputEvent({value: 'abc'});
+  control.handleInputEvent('abc');
 
   const state = control.getState();
 
@@ -35,7 +35,7 @@ it('Should have correct state after handling text input' ,() => {
 
 it('should notify about state change', () => {
 
-  const control = new RxField('');
+  const control = new RxControl('');
   control.setName('testControl');
 
   control.subscribe((state) => {
@@ -51,7 +51,7 @@ it('should notify about state change', () => {
 });
 
 it('should validate required field', () => {
-  const control = new RxField('', [Validators.required]);
+  const control = new RxControl('', [Validators.required]);
   control.setName('testControl');
 
   let state = control.getState();
@@ -62,7 +62,7 @@ it('should validate required field', () => {
   expect(state.valid).toBe(false);
   expect(state.invalid).toBe(true);
 
-  control.handleInputEvent({value: 'abc'});
+  control.handleInputEvent( 'abc');
 
   state = control.getState();
 
@@ -72,7 +72,7 @@ it('should validate required field', () => {
   expect(state.valid).toBe(true);
   expect(state.invalid).toBe(false);
 
-  control.handleInputEvent({value: ' '});
+  control.handleInputEvent(' ');
 
   state = control.getState();
 
@@ -85,9 +85,9 @@ it('should validate required field', () => {
 });
 
 it('should reset value to initial state', () => {
-  const control = new RxField('abc');
+  const control = new RxControl('abc');
 
-  control.handleInputEvent({value: '123'});
+  control.handleInputEvent( '123');
 
   control.resetValue();
 

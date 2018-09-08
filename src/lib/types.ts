@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-export interface IFieldState {
+export interface IControlState {
   touched: boolean;
   dirty: boolean;
   valid: boolean;
   invalid: boolean;
   value: any;
-  fieldName: string | null;
+  controlName: string | null;
   errorMessages: string[];
 }
 

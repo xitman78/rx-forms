@@ -1,41 +1,24 @@
-import RxField from './RxField';
-import {Observable} from 'rxjs/internal/Observable';
-import {Subject} from 'rxjs/internal/Subject';
-
-export interface RxInputEvent {
-  value: any;
-}
+import RxControl from './RxControl';
+// import {Observable} from 'rxjs/internal/Observable';
+// import {Subject} from 'rxjs/internal/Subject';
 
 class RxForm {
 
   public controls: {
-    [name: string]: RxField;
+    [name: string]: RxControl;
   } = {};
 
-  private observer: Observable<RxInputEvent>;
 
-  private subject: Subject<RxInputEvent>;
-
-
-  constructor(fieldsMap: {[key: string]: RxField} = {}) {
-
-    this.subject = new Subject();
-
-    this.observer = new Observable<RxInputEvent>(observer => {
-      this.subject.subscribe(observer);
-    });
+  constructor(fieldsMap: {[key: string]: RxControl} = {}) {
 
     this.controls = fieldsMap;
 
-    Object.keys(fieldsMap).forEach(fieldName => {
-      this.controls[fieldName].setName(fieldName);
+    Object.keys(fieldsMap).forEach(controlName => {
+      this.controls[controlName].setName(controlName);
     });
   }
 
 
-  public getObserver() {
-    return this.observer;
-  }
 
 
 }
