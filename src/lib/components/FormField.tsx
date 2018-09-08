@@ -11,7 +11,7 @@ interface IProps {
 
 
 
-class FieldState extends React.Component<IProps, IControlState> {
+class FormField extends React.Component<IProps, IControlState> {
 
   handlers: IFieldInputHandlers;
   private readonly subscription?: Subscription;
@@ -66,4 +66,4 @@ class FieldState extends React.Component<IProps, IControlState> {
   }
 }
 
-export default FieldState;
+export default FormField;

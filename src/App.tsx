@@ -2,7 +2,7 @@ import * as React from 'react';
 // import Form from './Form';
 import './App.css';
 
-import {RxForm, RxControl, FieldState, IControlState, Validators} from './lib';
+import {RxForm, RxControl, FormField, IControlState, Validators} from './lib';
 
 import logo from './logo.svg';
 
@@ -29,27 +29,27 @@ class App extends React.Component {
         </header>
         <br />
         <br />
-        <FieldState control={this.form.controls.firstName}>
+        <FormField control={this.form.controls.firstName}>
           {(state: IControlState, {handleInputChange}) => <label>
             First name:<input type="text" value={state.value} onChange={handleInputChange}/>
               {state.invalid && state.errorMessages.join(', ')}
           </label>}
-        </FieldState>
+        </FormField>
 
         <br />
         <hr />
-        <FieldState control={this.form.controls.lastName}>
+        <FormField control={this.form.controls.lastName}>
           {(state: IControlState, {handleInputChange}) => <label>
             Last name:<input type="text" value={state.value} onChange={handleInputChange}/>
               {state.invalid && state.errorMessages.join(', ')}
           </label>}
-        </FieldState>
+        </FormField>
 
         <br />
         <hr />
-        <FieldState control={this.form.controls.lastName}>
+        <FormField control={this.form.controls.lastName}>
           {(state: IControlState) => <h1>{state.value}</h1>}
-        </FieldState>
+        </FormField>
       </div>
     );
   }
