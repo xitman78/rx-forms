@@ -1,8 +1,8 @@
 import * as React from 'react';
-import RxForm from '../RxForm';
+import RxFormGroup from '../RxFormGroup';
 
 interface IProps {
-  form: RxForm;
+  form: RxFormGroup;
   children: (state: any) => any;
 }
 

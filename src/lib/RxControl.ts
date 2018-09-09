@@ -12,15 +12,13 @@ class RxControl {
 
   private state: IControlState;
 
-  private initialValue: any;
-
   private subject: Subject<IControlState>;
   private observer: Observable<IControlState>;
 
   private stateSubject: Subject<IControlState>;
   private stateObserver: Observable<IControlState>;
 
-  constructor(initialValue = '', private validators: RxValidator[] = []) {
+  constructor(private initialValue: any = '', private validators: RxValidator[] = []) {
 
     const validation = this.validateValue(initialValue);
 
@@ -48,8 +46,29 @@ class RxControl {
     });
   }
 
+
   public setName(name: string) {
     this.state.controlName = name;
+  }
+
+  public loadValue(value: any): void {
+
+    this.initialValue = value;
+
+    const validation = this.validateValue(value);
+
+    this.state = {
+      controlName:  '__undefined__',
+      touched: false,
+      dirty: false,
+      value,
+      valid: validation.valid,
+      invalid: !validation.valid,
+      errorMessages: validation.errorMessages,
+    };
+
+    this.subject.next(this.state);
+
   }
 
   public resetValue() {
@@ -100,6 +119,44 @@ class RxControl {
     return this.stateObserver.subscribe(cb);
   }
 
+  public markAsTouched(dontNotify: boolean): void {
+    const newState: IControlState = {
+      ...this.state,
+      touched: true,
+    };
+
+    const isStateChanged = this.isStateChanged(newState);
+
+    this.state = newState;
+    if (dontNotify) {
+      return;
+    }
+
+    if (isStateChanged) {
+      this.subject.next(newState);
+      this.stateSubject.next(newState);
+    }
+  }
+
+  public markAsDirty(dontNotify: boolean): void {
+    const newState: IControlState = {
+      ...this.state,
+      dirty: true,
+    };
+
+    const isStateChanged = this.isStateChanged(newState);
+
+    this.state = newState;
+    if (dontNotify) {
+      return;
+    }
+
+    if (isStateChanged) {
+      this.subject.next(newState);
+      this.stateSubject.next(newState);
+    }
+  }
+
   private validateValue(value: any): IValidationResult {
 
     const errorMessages = this.validators ? this.validators.map(validator => validator(value)).filter(error => !!error) as string[] : [];
@@ -130,6 +187,8 @@ class RxControl {
 
     return false;
   }
+
+
 
 }
 

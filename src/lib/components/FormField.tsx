@@ -13,7 +13,7 @@ interface IProps {
 
 class FormField extends React.Component<IProps, IControlState> {
 
-  handlers: IFieldInputHandlers;
+  private readonly handlers: IFieldInputHandlers;
   private readonly subscription?: Subscription;
 
   constructor(props: any) {
@@ -47,7 +47,7 @@ class FormField extends React.Component<IProps, IControlState> {
     }
   }
 
-  private handleStateChange(state: IControlState) {
+  public handleStateChange(state: IControlState) {
     this.setState({...state});
   }
 

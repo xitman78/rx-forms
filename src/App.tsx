@@ -2,19 +2,19 @@ import * as React from 'react';
 // import Form from './Form';
 import './App.css';
 
-import {RxForm, RxControl, FormField, IControlState, Validators} from './lib';
+import {RxFormGroup, RxControl, FormField, IControlState, Validators} from './lib';
 
 import logo from './logo.svg';
 
 
 class App extends React.Component {
 
-  private form: RxForm;
+  private form: RxFormGroup;
 
   constructor(props: any) {
     super(props);
 
-    this.form = new RxForm({
+    this.form = new RxFormGroup({
       firstName: new RxControl('Alex', [Validators.required]),
       lastName: new RxControl('Cherman', [Validators.required]),
     });

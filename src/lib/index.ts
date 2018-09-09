@@ -1,5 +1,5 @@
 export { default as RxControl } from './RxControl';
-export { default as RxForm } from './RxForm';
+export { default as RxFormGroup } from './RxFormGroup';
 
 export { default as FormField } from './components/FormField';
 

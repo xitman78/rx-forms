@@ -1,4 +1,4 @@
-import {RxControl, Validators} from '../index';
+import {RxControl, RxFormGroup, Validators} from '../index';
 
 it('Should create control with right state after control creation' ,() => {
   const control = new RxControl('');
@@ -46,7 +46,7 @@ it('should notify about state change', () => {
     expect(state.invalid).toBe(false);
   });
 
-  control.handleInputEvent({value: 'abc'});
+  control.handleInputEvent('abc');
 
 });
 
@@ -96,4 +96,39 @@ it('should reset value to initial state', () => {
   expect(state.value).toBe('abc');
   expect(state.dirty).toBeFalsy();
 
+});
+
+it('should load value and set it as initial value', () => {
+  const control = new RxControl('');
+
+  control.handleInputEvent( '123');
+
+  control.loadValue('loadedValue');
+
+  const state = control.getState();
+
+  expect(state.value).toBe('loadedValue');
+  expect(state.touched).toBeFalsy();
+  expect(state.dirty).toBeFalsy();
+  expect(state.valid).toBeTruthy();
+  expect(state.invalid).toBeFalsy();
+
+});
+
+it('should notify form group when state of a control has been changed', () => {
+  const form = new RxFormGroup({
+    testControl: new RxControl('')
+  });
+
+  form.subscribe((state) => {
+
+    expect(state.value).toBe('123');
+    expect(state.touched).toBeTruthy();
+    expect(state.dirty).toBeTruthy();
+    expect(state.valid).toBeTruthy();
+    expect(state.invalid).toBeFalsy();
+
+  });
+
+  form.controls.testControl.handleInputEvent('123');
 });
