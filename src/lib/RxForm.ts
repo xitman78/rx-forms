@@ -21,7 +21,7 @@ class RxForm {
 
     Object.keys(controlsMap).forEach(controlName => {
       this.controls[controlName].setName(controlName);
-      controlsMap[controlName].subscribe(this.handleControlStateChange);
+      controlsMap[controlName].subscribeToStateChange(this.handleControlStateChange);
     });
 
     this.subject = new Subject();

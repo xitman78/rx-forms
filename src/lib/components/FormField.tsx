@@ -41,7 +41,7 @@ class FormField extends React.Component<IProps, IControlState> {
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -55,7 +55,7 @@ class FormField extends React.Component<IProps, IControlState> {
     this.props.control.handleInputEvent(event.target.value);
   }
 
-  render() {
+  public render() {
 
     if (!this.props.control) {
       return `Control is not found in the form`;

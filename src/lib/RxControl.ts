@@ -1,93 +1,134 @@
-// import * as React from 'react';
 import {Subject} from 'rxjs';
 
 import {Observable} from 'rxjs/internal/Observable';
-import {IControlState, RxValidator} from './types';
+import {IControlState, RxValidator, IControlShortState} from './types';
+
+interface IValidationResult {
+  valid: boolean;
+  errorMessages: string[];
+}
 
 class RxControl {
 
-  private value: any;
+  private state: IControlState;
+
   private initialValue: any;
-  private name: string;
-  private touched: boolean;
-  private dirty: boolean;
-  private valid: boolean;
-  private errorMessages: string[];
 
   private subject: Subject<IControlState>;
   private observer: Observable<IControlState>;
 
-  constructor(initValue = '', private validators: RxValidator[] = []) {
-    this.name = '__undefined__';
-    this.touched = false;
-    this.dirty = false;
-    this.valid = true;
-    this.errorMessages = [];
-    this.initialValue = initValue;
-    this.value = initValue;
+  private stateSubject: Subject<IControlState>;
+  private stateObserver: Observable<IControlState>;
+
+  constructor(initialValue = '', private validators: RxValidator[] = []) {
+
+    const validation = this.validateValue(initialValue);
+
+    this.state = {
+      controlName:  '__undefined__',
+      touched: false,
+      dirty: false,
+      value: initialValue,
+      valid: validation.valid,
+      invalid: !validation.valid,
+      errorMessages: validation.errorMessages,
+    };
+
+    this.initialValue = initialValue;
 
     this.subject = new Subject();
+    this.stateSubject = new Subject();
 
     this.observer = new Observable<IControlState>(observer => {
       this.subject.subscribe(observer);
     });
+
+    this.stateObserver = new Observable<IControlState>(observer => {
+      this.stateSubject.subscribe(observer);
+    });
   }
 
   public setName(name: string) {
-    this.name = name;
+    this.state.controlName = name;
   }
 
   public resetValue() {
-    this.value = this.initialValue;
-    this.dirty = false;
+    this.state.value = this.initialValue;
+    this.state.dirty = false;
 
-    this.validateValue();
+    const validation = this.validateValue(this.initialValue);
+    this.state.valid = validation.valid;
+    this.state.invalid = !validation.valid;
 
-    const state = this.getState();
-
-    this.subject.next(state);
+    this.subject.next(this.state);
 
   }
 
   public handleInputEvent(value: any) {
-    this.value = value;
-    this.touched = true;
-    this.dirty = this.value !== this.initialValue;
 
-    this.validateValue();
+    const validation = this.validateValue(value);
 
-    const state = this.getState();
+    const newState: IControlState = {
+      touched: true,
+      dirty: value !== this.initialValue,
+      controlName: this.state.controlName,
+      ...validation,
+      invalid: !validation.valid,
+      value,
+    };
 
-    this.subject.next(state);
+    const isStateChanged = this.isStateChanged(newState);
+
+    this.state = newState;
+
+    this.subject.next(newState);
+
+    if (isStateChanged) {
+      this.stateSubject.next(newState);
+    }
   };
 
-
   public getState(): IControlState {
-
-    this.validateValue();
-
-    return {
-      touched: this.touched,
-      dirty: this.dirty,
-      valid: this.valid,
-      invalid: !this.valid,
-      value: this.value,
-      controlName: this.name,
-      errorMessages: this.errorMessages,
-    };
+    return this.state;
   }
 
-  // can be moved to basic class
   public subscribe(cb: (state: IControlState) => void) {
     return this.observer.subscribe(cb);
   }
 
-  private validateValue() {
+  public subscribeToStateChange(cb: (state: IControlState) => void) {
+    return this.stateObserver.subscribe(cb);
+  }
 
-    this.errorMessages = this.validators ? this.validators.map(validator => validator(this.value)).filter(error => !!error) as string[] : [];
+  private validateValue(value: any): IValidationResult {
 
-    this.valid = this.errorMessages.length === 0;
+    const errorMessages = this.validators ? this.validators.map(validator => validator(value)).filter(error => !!error) as string[] : [];
+    const valid = errorMessages.length === 0;
 
+    return {valid, errorMessages};
+  }
+
+  private isStateChanged(state: IControlShortState): boolean {
+    if (state.valid !== this.state.valid) {
+      return true;
+    }
+    if (state.touched !== this.state.touched) {
+      return true;
+    }
+    if (state.dirty !== this.state.dirty) {
+      return true;
+    }
+    if (state.errorMessages.length !== this.state.errorMessages.length) {
+      return true;
+    }
+
+    if (state.errorMessages.length) {
+      if (state.errorMessages.some((msg, index) => msg !== this.state.errorMessages[index])) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }

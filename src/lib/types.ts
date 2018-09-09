@@ -1,13 +1,16 @@
 import * as React from 'react';
 
-export interface IControlState {
+export interface IControlShortState {
   touched: boolean;
   dirty: boolean;
   valid: boolean;
+  errorMessages: string[];
+}
+
+export interface IControlState extends IControlShortState {
   invalid: boolean;
   value: any;
-  controlName: string | null;
-  errorMessages: string[];
+  controlName: string;
 }
 
 export interface IFieldInputHandlers {
