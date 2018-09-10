@@ -57,6 +57,25 @@ class RxFormGroup {
     return this.observer.subscribe(cb);
   }
 
+  public reset(notifyState: boolean = true): void {
+    const controlNames = Object.keys(this.controls);
+
+    if (controlNames.length === 0) {
+      return;
+    }
+
+    for(let i = 0; i < controlNames.length - 1; i++ ) {
+      const controlName = controlNames[i];
+      const control = this.controls[controlName];
+      control.reset(false); // do not send state notification until latest control, purpose - to avoid sending state notification for each control
+    }
+
+    const lastControl = this.controls[controlNames[controlNames.length - 1]];
+    if (lastControl) {
+      lastControl.reset(notifyState); // send state notification for latest control if needed
+    }
+  }
+
 
   private handleControlStateChange(state: IControlState) {
 
@@ -78,7 +97,6 @@ class RxFormGroup {
           dirty = true;
         }
         if (ctrlState.invalid) {
-
           valid = false;
         }
       });
@@ -104,18 +122,6 @@ class RxFormGroup {
     }
   }
 
-/*  private validateForm() {
-
-    const valid = false;
-    const dirty = false;
-
-    Object.keys(this.controls).forEach(controlName => {
-      /!*this.controls[controlName].setName(controlName);
-      controlsMap[controlName].subscribe(this.handleControlStateChange);*!/
-    });
-
-  }*/
-
   private isStateChanged(state: IControlShortState): boolean {
     if (state.valid !== this.state.valid) {
       return true;
@@ -126,15 +132,6 @@ class RxFormGroup {
     if (state.dirty !== this.state.dirty) {
       return true;
     }
-    /*if (state.errorMessages.length !== this.state.errorMessages.length) {
-      return true;
-    }
-
-    if (state.errorMessages.length) {
-      if (state.errorMessages.some((msg, index) => msg !== this.state.errorMessages[index])) {
-        return true;
-      }
-    }*/
 
     return false;
   }

@@ -89,7 +89,7 @@ it('should reset value to initial state', () => {
 
   control.handleInputEvent( '123');
 
-  control.resetValue();
+  control.reset();
 
   const state = control.getState();
 

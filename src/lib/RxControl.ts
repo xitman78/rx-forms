@@ -71,7 +71,7 @@ class RxControl {
 
   }
 
-  public resetValue() {
+  public reset(notifyState: boolean = true): void {
     this.state.value = this.initialValue;
     this.state.dirty = false;
 
@@ -80,6 +80,10 @@ class RxControl {
     this.state.invalid = !validation.valid;
 
     this.subject.next(this.state);
+
+    if (notifyState) {
+      this.stateSubject.next(this.state);
+    }
 
   }
 
