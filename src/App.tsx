@@ -6,15 +6,20 @@ import {RxFormGroup, RxControl, FormField, IControlState, Validators} from './li
 
 import logo from './logo.svg';
 
+interface IUser {
+  firstName: string;
+  lastName: string;
+}
+
 
 class App extends React.Component {
 
-  private form: RxFormGroup;
+  private form: RxFormGroup<IUser>;
 
   constructor(props: any) {
     super(props);
 
-    this.form = new RxFormGroup({
+    this.form = new RxFormGroup<IUser>({
       firstName: new RxControl('Alex', [Validators.required]),
       lastName: new RxControl('Cherman', [Validators.required]),
     });
@@ -29,7 +34,7 @@ class App extends React.Component {
         </header>
         <br />
         <br />
-        <FormField control={this.form.controls.firstName as RxControl}>
+        <FormField control={this.form.controls.firstName}>
           {(state: IControlState, {handleInputChange}) => <label>
             First name:<input type="text" value={state.value} onChange={handleInputChange}/>
               {state.invalid && state.errorMessages.join(', ')}
@@ -38,7 +43,7 @@ class App extends React.Component {
 
         <br />
         <hr />
-        <FormField control={this.form.controls.lastName as RxControl}>
+        <FormField control={this.form.controls.lastName}>
           {(state: IControlState, {handleInputChange}) => <label>
             Last name:<input type="text" value={state.value} onChange={handleInputChange}/>
               {state.invalid && state.errorMessages.join(', ')}
@@ -47,7 +52,7 @@ class App extends React.Component {
 
         <br />
         <hr />
-        <FormField control={this.form.controls.lastName as RxControl}>
+        <FormField control={this.form.controls.lastName}>
           {(state: IControlState) => <h1>{state.value}</h1>}
         </FormField>
       </div>

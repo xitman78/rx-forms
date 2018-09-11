@@ -10,7 +10,6 @@ interface IProps {
 }
 
 
-
 class FormField extends React.Component<IProps, IControlState> {
 
   private readonly handlers: IFieldInputHandlers;
