@@ -1,14 +1,14 @@
 import {Subject} from 'rxjs';
 
 import {Observable} from 'rxjs/internal/Observable';
-import {IControlState, RxValidator, IControlShortState} from './types';
+import {IControlState, RxValidator, IControlShortState, RxCommon} from './types';
 
 interface IValidationResult {
   valid: boolean;
   errorMessages: string[];
 }
 
-class RxControl {
+class RxControl implements RxCommon {
 
   private state: IControlState;
 

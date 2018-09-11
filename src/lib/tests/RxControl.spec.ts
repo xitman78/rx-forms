@@ -115,9 +115,13 @@ it('should load value and set it as initial value', () => {
 
 });
 
+interface ITestType {
+  testControl: string
+}
+
 it('should notify form group when state of a control has been changed', () => {
-  const form = new RxFormGroup({
-    testControl: new RxControl('')
+  const form = new RxFormGroup<ITestType>({
+    testControl: new RxControl(''),
   });
 
   form.subscribe((state) => {
@@ -131,4 +135,5 @@ it('should notify form group when state of a control has been changed', () => {
   });
 
   form.controls.testControl.handleInputEvent('123');
+
 });

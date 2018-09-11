@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Subscription} from 'rxjs/internal/Subscription';
 
 export interface IControlShortState {
   touched: boolean;
@@ -15,6 +16,13 @@ export interface IControlState extends IControlShortState {
 
 export interface IFieldInputHandlers {
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+}
+
+export interface RxCommon {
+  setName: (name: string) => void;
+  reset: (notifyState?: boolean) => void;
+  getState: () => IControlState;
+  subscribe: (cb: (state: IControlState) => void) => Subscription;
 }
 
 /**

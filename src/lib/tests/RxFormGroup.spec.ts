@@ -14,9 +14,12 @@ it('should set name of a control equal to corresponding key in a object map pass
 
 
 it('should notify form group when state of a control has been changed', () => {
-  const form = new RxFormGroup({
+
+  const initMap = {
     testControl: new RxControl('', [Validators.required])
-  });
+  };
+
+  const form = new RxFormGroup(initMap);
 
   form.subscribe((state) => {
     expect(state.touched).toBeTruthy();
@@ -25,7 +28,7 @@ it('should notify form group when state of a control has been changed', () => {
     expect(state.invalid).toBeFalsy();
   });
 
-  form.controls.testControl.handleInputEvent('123');
+  initMap.testControl.handleInputEvent('123');
 });
 
 
@@ -64,7 +67,6 @@ it('should reset receive state notification after form reset', (done) => {
   form.controls.firstName.handleInputEvent('some');
 
   form.subscribe(formState => {
-    console.log('state', formState);
     expect(formState.dirty).toBeFalsy();
     done();
   });

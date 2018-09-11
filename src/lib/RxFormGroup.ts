@@ -1,13 +1,22 @@
 import RxControl from './RxControl';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subject} from 'rxjs/internal/Subject';
-import {IControlShortState, IControlState} from './types';
+import {IControlShortState, IControlState, RxCommon} from './types';
 
-class RxFormGroup {
+type RxControlsMap<T> = {
+  [name in keyof T]: RxControl;
+};
 
-  public controls: {
-    [name: string]: RxControl;
-  } = {};
+type RxGroupsMap<T> = {
+  [name in keyof T]: RxFormGroup;
+};
+
+type DefaultMapType = { [name: string]: any };
+
+class RxFormGroup<T = DefaultMapType, G = DefaultMapType> implements RxCommon {
+
+  public controls = {} as RxControlsMap<T>;
+  public groups = {} as RxGroupsMap<G>;
 
   private state: IControlState;
 
@@ -15,20 +24,29 @@ class RxFormGroup {
   private observer: Observable<IControlState>;
 
 
-  constructor(controlsMap: {[key: string]: RxControl} = {}) {
-
-    this.controls = controlsMap;
+  constructor(controlsMap: RxControlsMap<T> = {} as RxControlsMap<T>, groupsMap: RxGroupsMap<G> = {} as RxGroupsMap<G>) {
 
     let valid = true;
+    this.controls = controlsMap;
+    this.groups = groupsMap;
 
     this.handleControlStateChange = this.handleControlStateChange.bind(this);
 
     Object.keys(controlsMap).forEach(controlName => {
-      this.controls[controlName].setName(controlName);
-      controlsMap[controlName].subscribeToStateChange(this.handleControlStateChange);
-      if (!this.controls[controlName].getState().valid) {
+      controlsMap[controlName].setName(controlName);
+      if (!controlsMap[controlName].getState().valid) {
         valid = false;
       }
+      controlsMap[controlName].subscribeToStateChange(this.handleControlStateChange);
+    });
+
+
+    Object.keys(groupsMap).forEach(groupName => {
+      groupsMap[groupName].setName(groupName);
+      if (!groupsMap[groupName].getState().valid) {
+        valid = false;
+      }
+      groupsMap[groupName].subscribe(this.handleControlStateChange);
     });
 
     this.state = {
@@ -74,6 +92,10 @@ class RxFormGroup {
     if (lastControl) {
       lastControl.reset(notifyState); // send state notification for latest control if needed
     }
+  }
+
+  public getState() {
+    return this.state;
   }
 
 
