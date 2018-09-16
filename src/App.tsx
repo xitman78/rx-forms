@@ -2,7 +2,7 @@ import * as React from 'react';
 // import Form from './Form';
 import './App.css';
 
-import {RxFormGroup, RxControl, FormField, IControlState, Validators} from './lib';
+import {RxFormGroup, RxControl, FormField, IControlState, Validators, FormState} from './lib';
 
 import logo from './logo.svg';
 
@@ -52,9 +52,9 @@ class App extends React.Component {
 
         <br />
         <hr />
-        <FormField control={this.form.controls.lastName}>
-          {(state: IControlState) => <h1>{state.value}</h1>}
-        </FormField>
+        <FormState form={this.form}>
+          {(state: IControlState) => <button disabled={!(state.touched && state.valid)}>Submit</button>}
+        </FormState>
       </div>
     );
   }
