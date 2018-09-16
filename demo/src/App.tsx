@@ -1,8 +1,14 @@
 import * as React from 'react';
-// import Form from './Form';
 import './App.css';
 
-import {RxFormGroup, RxControl, FormField, IControlState, Validators, FormState} from 'rx-forms/lib';
+import {
+  RxFormGroup,
+  RxControl,
+  FormField,
+  IControlState,
+  Validators,
+  FormState
+} from 'rx-forms';
 
 import logo from './logo.svg';
 
@@ -20,8 +26,8 @@ class App extends React.Component {
     super(props);
 
     this.form = new RxFormGroup<IUser>({
-      firstName: new RxControl('Alex', [Validators.required]),
-      lastName: new RxControl('Cherman', [Validators.required]),
+      firstName: new RxControl('John', [Validators.required]),
+      lastName: new RxControl('Smith', [Validators.required]),
     });
   }
 

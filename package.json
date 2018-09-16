@@ -1,11 +1,16 @@
 {
   "name": "rx-forms",
+  "author": "Alexander Cherepnya",
+  "description": "React forms powered by RxJs",
   "version": "0.1.0",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/xitman78/rx-forms.git"
+  }
   "private": true,
-  "dependencies": {
+  "main": "./lib/index.js",
+  "peerDependencies": {
     "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-scripts-ts": "2.17.0",
     "rxjs": "^6.3.1"
   },
   "scripts": {
@@ -16,7 +21,8 @@
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.4",
     "@types/react": "^16.4.13",
-    "@types/react-dom": "^16.0.7",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "rxjs": "^6.3.1",
+    "react": "^16.4.2"
   }
 }
