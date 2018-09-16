@@ -2,7 +2,7 @@ import * as React from 'react';
 // import Form from './Form';
 import './App.css';
 
-import {RxFormGroup, RxControl, FormField, IControlState, Validators, FormState} from './lib';
+import {RxFormGroup, RxControl, FormField, IControlState, Validators, FormState} from 'rx-forms/lib';
 
 import logo from './logo.svg';
 

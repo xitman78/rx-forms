@@ -8,11 +8,9 @@
   },
   "linterOptions": {
     "exclude": [
-      "lib/**/*.*",
-      "demo/*",
-      "config/**/*.*",
-      "node_modules/**/*.*",
-      "coverage/*"
+      "config/**/*.js",
+      "node_modules/**/*.ts",
+      "coverage/lcov-report/*.js"
     ]
   }
 }
