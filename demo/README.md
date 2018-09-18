@@ -1,7 +1,5 @@
-# Demonstration of using Rx-Forms
-
-## Installation
-
+## Demonstration of using Rx-Forms
+### Installation
 ```sh
 cd ./demo
 npm install
