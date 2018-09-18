@@ -9,10 +9,9 @@
   "linterOptions": {
     "exclude": [
       "lib/**/*.*",
-      "demo/*",
-      "config/**/*.*",
+      "demo/**/*.*",
       "node_modules/**/*.*",
-      "coverage/*"
+      "coverage/**/*.*"
     ]
   }
 }
