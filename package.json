@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "rm -rdf ./lib && tsc",
-    "test": "ts-jest ./src"
+    "test": "jest"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
@@ -23,5 +23,21 @@
     "typescript": "^3.0.3",
     "rxjs": "^6.3.1",
     "react": "^16.4.2"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(spec))\\.(tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
   }
 }
