@@ -74,3 +74,34 @@ it('should reset receive state notification after form reset', (done) => {
   form.reset(true);
 
 });
+
+it('should collect data from all controls and groups in a group with getValues method', () => {
+  const form = new RxFormGroup({
+    firstName: new RxControl('john', [Validators.required]),
+    lastName: new RxControl('smith', [Validators.required]),
+  }, {
+    address: new RxFormGroup<{city: string, state: string, street: string}>({
+      city: new RxControl(''),
+      state: new RxControl(''),
+      street: new RxControl(''),
+    }),
+  });
+
+  form.controls.firstName.handleInputEvent('peter');
+  form.controls.lastName.handleInputEvent('johnson');
+  form.groups.address.controls.city.handleInputEvent('Dallas');
+  form.groups.address.controls.state.handleInputEvent('Texas');
+  form.groups.address.controls.street.handleInputEvent('Some street');
+
+  const result = form.getValues();
+
+  expect(result.firstName).toBe('peter');
+  expect(result.lastName).toBe('johnson');
+  expect(result.address).toBeDefined();
+  expect((result.address as any).city).toBe('Dallas');
+  expect((result.address as any).state).toBe('Texas');
+  expect((result.address as any).street).toBe('Some street');
+
+  console.log('result', result);
+
+});

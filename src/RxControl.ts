@@ -115,6 +115,10 @@ class RxControl implements RxCommon {
     return this.state;
   }
 
+  public getValue(): any {
+    return this.state.value;
+  }
+
   public subscribe(cb: (state: IControlState) => void) {
     return this.observer.subscribe(cb);
   }

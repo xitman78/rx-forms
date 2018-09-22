@@ -13,6 +13,7 @@ declare class RxControl implements RxCommon {
     reset(notifyState?: boolean): void;
     handleInputEvent(value: any): void;
     getState(): IControlState;
+    getValue(): any;
     subscribe(cb: (state: IControlState) => void): import("rxjs/internal/Subscription").Subscription;
     subscribeToStateChange(cb: (state: IControlState) => void): import("rxjs/internal/Subscription").Subscription;
     markAsTouched(dontNotify: boolean): void;

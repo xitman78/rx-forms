@@ -20,6 +20,7 @@ declare class RxFormGroup<T = DefaultMapType, G = DefaultMapType> implements RxC
     subscribe(cb: (state: IControlState) => void): import("rxjs/internal/Subscription").Subscription;
     reset(notifyState?: boolean): void;
     getState(): IControlState;
+    getValues(): T & G;
     private handleControlStateChange;
     private isStateChanged;
 }

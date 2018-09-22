@@ -98,6 +98,16 @@ class RxFormGroup<T = DefaultMapType, G = DefaultMapType> implements RxCommon {
     return this.state;
   }
 
+  public getValues(): T & G {
+
+    const controlsValues: T = Object.keys(this.controls).reduce((ac: T, key) => {ac[key] = this.controls[key].getValue(); return ac;}, {} as T);
+
+    const groupsValues: G = Object.keys(this.groups).reduce((ac: G, key) => {ac[key] = this.groups[key].getValues(); return ac;}, {} as G);
+
+    return Object.assign(controlsValues, groupsValues);
+
+  }
+
 
   private handleControlStateChange(state: IControlState) {
 
