@@ -33,7 +33,7 @@ it('Should have correct state after handling text input' ,() => {
 
 });
 
-it('should notify about state change', () => {
+it('should notify about state change', (done) => {
 
   const control = new RxControl('');
   control.setName('testControl');
@@ -44,6 +44,8 @@ it('should notify about state change', () => {
     expect(state.value).toBe('abc');
     expect(state.valid).toBe(true);
     expect(state.invalid).toBe(false);
+
+    done();
   });
 
   control.handleInputEvent('abc');
@@ -119,18 +121,20 @@ interface ITestType {
   testControl: string
 }
 
-it('should notify form group when state of a control has been changed', () => {
+it('should notify form group when state of a control has been changed', (done) => {
   const form = new RxFormGroup<ITestType>({
     testControl: new RxControl(''),
   });
 
   form.subscribe((state) => {
 
-    expect(state.value).toBe('123');
+    expect(state.value).toBe(null); // value in form group should be null
     expect(state.touched).toBeTruthy();
     expect(state.dirty).toBeTruthy();
     expect(state.valid).toBeTruthy();
     expect(state.invalid).toBeFalsy();
+
+    done();
 
   });
 
