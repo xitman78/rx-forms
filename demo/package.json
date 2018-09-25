@@ -1,6 +1,7 @@
 {
-  "name": "rx-forms",
-  "version": "0.1.0",
+  "name": "rx-forms-demo",
+  "author": "Alexander Cherepnya",
+  "version": "0.1.4",
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

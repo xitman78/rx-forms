@@ -6,10 +6,10 @@ declare type RxControlsMap<T> = {
 declare type RxGroupsMap<T> = {
     [name in keyof T]: RxFormGroup;
 };
-declare type DefaultMapType = {
+interface IDefaultMapType {
     [name: string]: any;
-};
-declare class RxFormGroup<T = DefaultMapType, G = DefaultMapType> implements RxCommon {
+}
+declare class RxFormGroup<T = IDefaultMapType, G = IDefaultMapType> implements RxCommon {
     controls: RxControlsMap<T>;
     groups: RxGroupsMap<G>;
     private state;
