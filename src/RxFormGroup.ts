@@ -11,9 +11,11 @@ type RxGroupsMap<T> = {
   [name in keyof T]: RxFormGroup;
 };
 
-type DefaultMapType = { [name: string]: any };
+interface IDefaultMapType {
+  [name: string]: any;
+}
 
-class RxFormGroup<T = DefaultMapType, G = DefaultMapType> implements RxCommon {
+class RxFormGroup<T = IDefaultMapType, G = IDefaultMapType> implements RxCommon {
 
   public controls = {} as RxControlsMap<T>;
   public groups = {} as RxGroupsMap<G>;
@@ -167,8 +169,6 @@ class RxFormGroup<T = DefaultMapType, G = DefaultMapType> implements RxCommon {
 
     return false;
   }
-
-
 }
 
 export default RxFormGroup;
