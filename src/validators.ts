@@ -1,5 +1,5 @@
 import {RxValidator, RxValidatorCreator} from './types';
-import {Schema, ValidationError} from 'yup';
+import {Schema} from 'yup';
 
 const REQUIRED_MESSAGE = 'Required';
 
@@ -21,7 +21,7 @@ const yup = (yupSchema: Schema<any>): RxValidator => {
     try {
       yupSchema.validateSync(value);
     } catch(validationError) {
-      if (validationError instanceof ValidationError) {
+      if (validationError.hasOwnProperty('message') && validationError.message) {
         return validationError.message;
       } else {
         return 'Unknown validation error.';

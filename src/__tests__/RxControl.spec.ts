@@ -84,7 +84,7 @@ it('should validate required field', () => {
   expect(state.value).toBe(' ');
   expect(state.valid).toBe(false);
   expect(state.invalid).toBe(true);
-  expect(state.errorMessages[0]).toBe('required field!');
+  expect(state.errorMessage).toBe('required field!');
 
 });
 
@@ -149,6 +149,6 @@ it('should validate value with Yup validators', () => {
 
   const testControl = new RxControl('', [Validators.yup(Yup.string().required('This field is required!'))]);
 
-  expect(testControl.getState().errorMessages[0]).toBe('This field is required!');
+  expect(testControl.getState().errorMessage).toBe('This field is required!');
 
 });

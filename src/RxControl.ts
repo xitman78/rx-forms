@@ -5,7 +5,7 @@ import {IControlState, RxValidator, IControlShortState, RxCommon} from './types'
 
 interface IValidationResult {
   valid: boolean;
-  errorMessages: string[];
+  errorMessage: string | null;
 }
 
 class RxControl implements RxCommon {
@@ -29,7 +29,7 @@ class RxControl implements RxCommon {
       value: initialValue,
       valid: validation.valid,
       invalid: !validation.valid,
-      errorMessages: validation.errorMessages,
+      errorMessage: validation.errorMessage,
     };
 
     this.initialValue = initialValue;
@@ -64,7 +64,7 @@ class RxControl implements RxCommon {
       value,
       valid: validation.valid,
       invalid: !validation.valid,
-      errorMessages: validation.errorMessages,
+      errorMessage: validation.errorMessage,
     };
 
     this.subject.next(this.state);
@@ -168,9 +168,11 @@ class RxControl implements RxCommon {
   private validateValue(value: any): IValidationResult {
 
     const errorMessages = this.validators ? this.validators.map(validator => validator(value)).filter(error => !!error) as string[] : [];
-    const valid = errorMessages.length === 0;
 
-    return {valid, errorMessages};
+    return {
+      valid: errorMessages.length === 0,
+      errorMessage: errorMessages.length > 0 ? errorMessages[0] : null
+    };
   }
 
   private isStateChanged(state: IControlShortState): boolean {
@@ -183,14 +185,8 @@ class RxControl implements RxCommon {
     if (state.dirty !== this.state.dirty) {
       return true;
     }
-    if (state.errorMessages.length !== this.state.errorMessages.length) {
+    if (state.errorMessage !== this.state.errorMessage) {
       return true;
-    }
-
-    if (state.errorMessages.length) {
-      if (state.errorMessages.some((msg, index) => msg !== this.state.errorMessages[index])) {
-        return true;
-      }
     }
 
     return false;

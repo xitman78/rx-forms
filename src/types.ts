@@ -5,7 +5,7 @@ export interface IControlShortState {
   touched: boolean;
   dirty: boolean;
   valid: boolean;
-  errorMessages: string[];
+  errorMessage: string | null;
 }
 
 export interface IControlState extends IControlShortState {

@@ -23,7 +23,7 @@ class FormState extends React.Component<IProps, IControlState> {
       valid: false, // TODO: remake it
       invalid: true,
       value: '',
-      errorMessages: ['INVALID CONTROL'],
+      errorMessage: 'INVALID CONTROL',
       controlName: '__undefined__',
     };
 

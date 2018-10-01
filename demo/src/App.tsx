@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.css';
+import * as Yup from 'yup';
 
 import {
   RxFormGroup,
@@ -26,8 +27,8 @@ class App extends React.Component {
     super(props);
 
     this.form = new RxFormGroup<IUser>({
-      firstName: new RxControl('John', [Validators.required]),
-      lastName: new RxControl('Smith', [Validators.required]),
+      firstName: new RxControl('John', [Validators.yup(Yup.string().trim().required('This fields is required'))]),
+      lastName: new RxControl('Smith', [Validators.yup(Yup.string().trim().required('This fields is required'))]),
     });
   }
 
@@ -43,7 +44,7 @@ class App extends React.Component {
         <FormField control={this.form.controls.firstName}>
           {(state: IControlState, {handleInputChange}) => <label>
             First name:<input type="text" value={state.value} onChange={handleInputChange}/>
-              {state.invalid && state.errorMessages.join(', ')}
+              {state.invalid && state.errorMessage}
           </label>}
         </FormField>
 
@@ -52,14 +53,21 @@ class App extends React.Component {
         <FormField control={this.form.controls.lastName}>
           {(state: IControlState, {handleInputChange}) => <label>
             Last name:<input type="text" value={state.value} onChange={handleInputChange}/>
-              {state.invalid && state.errorMessages.join(', ')}
+              {state.invalid && state.errorMessage}
           </label>}
         </FormField>
 
         <br />
         <hr />
         <FormState form={this.form}>
-          {(state: IControlState) => <button disabled={!(state.touched && state.valid)}>Submit</button>}
+          {(state: IControlState) => (
+            <div>
+              <button disabled={!(state.touched && state.valid)}>Submit</button>
+              <br /><br />
+              <div>{state.valid ? 'Form is valid' : 'Form is invalid'}</div>
+              <div>{state.touched ? 'Form is touched' : 'Form is untouched'}</div>
+            </div>)
+          }
         </FormState>
       </div>
     );

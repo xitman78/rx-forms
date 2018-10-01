@@ -58,7 +58,7 @@ class RxFormGroup<T = IDefaultMapType, G = IDefaultMapType> implements RxCommon 
       valid,
       invalid: !valid,
       value: null,
-      errorMessages: [],
+      errorMessage: null,
     };
 
     this.subject = new Subject();
@@ -139,7 +139,7 @@ class RxFormGroup<T = IDefaultMapType, G = IDefaultMapType> implements RxCommon 
         touched,
         dirty,
         valid,
-        errorMessages: [],
+        errorMessage: null,
       };
 
       const isStateChanged = this.isStateChanged(newState);
