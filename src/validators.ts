@@ -1,19 +1,25 @@
-import {RxValidator} from './types';
+import {RxValidatorCreator} from './types';
 
 const REQUIRED_MESSAGE = 'Required';
 
-const required: RxValidator = (value: any) => {
+const required: RxValidatorCreator = (errorMessage = REQUIRED_MESSAGE) => {
 
-  if (typeof value === 'string') {
-    if (!value || !value.trim()) {
-      return REQUIRED_MESSAGE;
-    } else {
-      return null;
+  return function (value: any) {
+    if (typeof value === 'string') {
+      if (!value || !value.trim()) {
+        return errorMessage;
+      } else {
+        return null;
+      }
     }
-  }
 
-  return (value === undefined || value === null) ? REQUIRED_MESSAGE : null;
+    return (value === undefined || value === null) ? errorMessage : null;
+  }
 };
+
+/*const yup: RxValidator = value => {
+
+};*/
 
 export default {
   required,

@@ -16,7 +16,7 @@ it('should set name of a control equal to corresponding key in a object map pass
 it('should notify form group when state of a control has been changed', (done) => {
 
   const initMap = {
-    testControl: new RxControl('', [Validators.required])
+    testControl: new RxControl('', [Validators.required()])
   };
 
   const form = new RxFormGroup(initMap);
@@ -37,9 +37,9 @@ it('should notify form group when state of a control has been changed', (done) =
 it('should reset values of all controls in the group with initial values', () => {
 
   const initMap = {
-    firstName: new RxControl('john', [Validators.required]),
-    lastName: new RxControl('smith', [Validators.required]),
-    email: new RxControl('john@smith.com', [Validators.required]),
+    firstName: new RxControl('john', [Validators.required()]),
+    lastName: new RxControl('smith', [Validators.required()]),
+    email: new RxControl('john@smith.com', [Validators.required()]),
   };
 
   const form = new RxFormGroup(initMap);
@@ -62,8 +62,8 @@ it('should reset values of all controls in the group with initial values', () =>
 it('should reset receive state notification after form reset', (done) => {
 
   const form = new RxFormGroup({
-    firstName: new RxControl('john', [Validators.required]),
-    lastName: new RxControl('smith', [Validators.required]),
+    firstName: new RxControl('john', [Validators.required()]),
+    lastName: new RxControl('smith', [Validators.required()]),
   });
 
   form.controls.firstName.handleInputEvent('some');
@@ -81,8 +81,8 @@ it('should reset receive state notification after form reset', (done) => {
 
 it('should collect data from all controls and groups in a group with getValues method', () => {
   const form = new RxFormGroup({
-    firstName: new RxControl('john', [Validators.required]),
-    lastName: new RxControl('smith', [Validators.required]),
+    firstName: new RxControl('john', [Validators.required()]),
+    lastName: new RxControl('smith', [Validators.required()]),
   }, {
     address: new RxFormGroup<{city: string, state: string, street: string}>({
       city: new RxControl(''),

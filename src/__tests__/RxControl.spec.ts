@@ -53,7 +53,7 @@ it('should notify about state change', (done) => {
 });
 
 it('should validate required field', () => {
-  const control = new RxControl('', [Validators.required]);
+  const control = new RxControl('', [Validators.required('required field!')]);
   control.setName('testControl');
 
   let state = control.getState();
@@ -83,6 +83,7 @@ it('should validate required field', () => {
   expect(state.value).toBe(' ');
   expect(state.valid).toBe(false);
   expect(state.invalid).toBe(true);
+  expect(state.errorMessages[0]).toBe('required field!');
 
 });
 
