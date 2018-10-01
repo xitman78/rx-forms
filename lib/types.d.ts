@@ -24,3 +24,4 @@ export interface RxCommon {
  * Type for synchronous validators - if value is valid return null otherwise text string with error message
  */
 export declare type RxValidator = (value: any) => string | null;
+export declare type RxValidatorCreator = (errorMessage?: string) => RxValidator;

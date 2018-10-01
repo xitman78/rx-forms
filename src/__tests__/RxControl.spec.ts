@@ -1,4 +1,5 @@
 import {RxControl, RxFormGroup, Validators} from '../index';
+import * as Yup from 'yup';
 
 it('Should create control with right state after control creation' ,() => {
   const control = new RxControl('');
@@ -140,5 +141,14 @@ it('should notify form group when state of a control has been changed', (done) =
   });
 
   form.controls.testControl.handleInputEvent('123');
+
+});
+
+
+it('should validate value with Yup validators', () => {
+
+  const testControl = new RxControl('', [Validators.yup(Yup.string().required('This field is required!'))]);
+
+  expect(testControl.getState().errorMessages[0]).toBe('This field is required!');
 
 });
