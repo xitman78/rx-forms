@@ -1,7 +1,7 @@
 {
   "name": "rx-forms-demo",
   "author": "Alexander Cherepnya",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "dependencies": {
     "@types/yup": "^0.24.9",
     "react": "^16.4.2",
