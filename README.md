@@ -31,9 +31,9 @@ The view layer is represented by two React components - FormField and FormState,
 </FormState>
 ```
 ### Why
-The existing solutions for managing forms in React known to the author, have serious performance issue especially on big forms with complex validation. It often happens that these libraries run validators for each control and render all the form each time a user makes an input, even though the input change affects only an actual HTML control and couple surronding element to reflect validation status of the control and show a validation error message. This issue leads us to poor user experience and we need to optimize the form somehow (e.g. by switching to "onBlur" validation).
+The existing solutions for managing forms in React known to the author, have serious performance issue especially on big forms with complex validation. It often happens that these libraries run validators for each control and render all the form each time a user makes an input, even though the input change affects only an actual HTML control and a few surronding elements to reflect validation status of the control and show a validation error message. This issue leads us to poorer user experience and force us to optimize the form by some tricks (e.g. by switching to "onBlur" validation).
 
 RxForms library is solving the issue by rendering and validating only certain parts of a form. This idea is implemented by using RxJs observers inside instances of RxControl and RxFormControl to notify view layer (FormField and FormState) about the changes.
 
 #### Disclaimer
-Author is aware of that a passing a prototyped object with mutated properties as prop into React component might be considered as bad practice, but at the moment it looks like the most straightforward solution.
+Author is aware of that a passing a prototyped object with mutated properties as prop into React component might be considered as a bad practice, but at the moment it looks like the most straightforward solution.
