@@ -38,6 +38,6 @@ RxForms library is solving the issue by rendering and validating only certain pa
 #### Disclamer
 Author is aware of that a passing a prototyped object with mutated properties as prop into React component might be considered as a bad practice, but at the moment it looks like the most straightforward solution.
 
-RxForms library is currently on early development stage and it's not recommended to use it in a production project. Minor version changes may contain braking API changes.
+RxForms library is currently on early development stage and it's not recommended to use it in a production project. Minor version changes may contain breaking API changes.
 
 Contributors are welcomed!
