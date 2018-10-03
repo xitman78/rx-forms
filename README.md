@@ -1,5 +1,5 @@
 ## React forms powered by RxJs
-Library for managing forms in ReactJS powered by RxJs, in some way inspired by ReactiveForms in Angular.
+Library for managing forms in ReactJS powered by RxJs, in some way inspired by Reactive Forms of Angular.
 ### Installation
 ```sh
 npm install rx-forms
