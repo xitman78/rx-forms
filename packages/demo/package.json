@@ -6,7 +6,7 @@
     "@types/yup": "^0.24.9",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-scripts-ts": "2.17.0",
+    "react-scripts-ts": "^4.0.8",
     "rx-forms": "^0.1.5",
     "rxjs": "^6.3.1",
     "yup": "^0.26.6"
@@ -23,5 +23,11 @@
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",
     "typescript": "^3.0.3"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
