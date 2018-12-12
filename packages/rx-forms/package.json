@@ -1,0 +1,67 @@
+{
+  "name": "rx-forms",
+  "author": "Alexander Cherepnya",
+  "description": "React forms powered by RxJs",
+  "keywords": [
+    "rx-forms",
+    "reactjs",
+    "forms",
+    "rxjs",
+    "reactive",
+    "observable"
+  ],
+  "version": "0.1.5",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xitman78/rx-forms.git"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "peerDependencies": {
+    "react": "16.x",
+    "rxjs": "6.x",
+    "yup": "^0.24"
+  },
+  "scripts": {
+    "build": "rimraf ./lib && tsc",
+    "test": "jest",
+    "lint": "tslint ./src/**/*"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.1.14",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
+    "@types/jest": "^23.3.1",
+    "@types/node": "^10.9.4",
+    "@types/react": "^16.4.13",
+    "@types/yup": "^0.24.9",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "jest": "^23.6.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "rimraf": "^2.6.2",
+    "rxjs": "^6.3.1",
+    "ts-jest": "^23.1.4",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.0.3",
+    "yup": "^0.26.6"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(spec))\\.(tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
+  }
+}
