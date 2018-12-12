@@ -12,7 +12,6 @@
     "yup": "^0.26.6"
   },
   "scripts": {
-    "symlink": "npm link rx-forms ../",
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
