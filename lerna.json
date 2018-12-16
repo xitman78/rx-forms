@@ -1,6 +1,7 @@
 {
   "packages": [
-    "packages/*"
+    "demo",
+    "rx-forms"
   ],
   "version": "0.0.0"
 }
