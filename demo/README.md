@@ -1,8 +1,9 @@
 ## Demonstration of using Rx-Forms
 ### Installation
+In repo's root folder run following:
 ```sh
-cd ./demo
 npm install
-npm run symlink
+npx lerna bootstrap
+cd ./demo
 npm start
 ```
