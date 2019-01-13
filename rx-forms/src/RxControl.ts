@@ -1,6 +1,5 @@
-import {Subject} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 
-import {Observable} from 'rxjs/internal/Observable';
 import {IControlState, RxValidator, IControlShortState, RxCommon} from './types';
 
 interface IValidationResult {
@@ -13,10 +12,8 @@ class RxControl implements RxCommon {
   private state: IControlState;
 
   private subject: Subject<IControlState>;
-  private observer: Observable<IControlState>;
 
   private stateSubject: Subject<IControlState>;
-  private stateObserver: Observable<IControlState>;
 
   constructor(private initialValue: any = '', private validators: RxValidator[] = []) {
 
@@ -37,13 +34,6 @@ class RxControl implements RxCommon {
     this.subject = new Subject();
     this.stateSubject = new Subject();
 
-    this.observer = new Observable<IControlState>(observer => {
-      this.subject.subscribe(observer);
-    });
-
-    this.stateObserver = new Observable<IControlState>(observer => {
-      this.stateSubject.subscribe(observer);
-    });
   }
 
 
@@ -119,12 +109,12 @@ class RxControl implements RxCommon {
     return this.state.value;
   }
 
-  public subscribe(cb: (state: IControlState) => void) {
-    return this.observer.subscribe(cb);
+  public subscribe(cb: (state: IControlState) => void): Subscription {
+    return this.subject.subscribe(cb);
   }
 
-  public subscribeToStateChange(cb: (state: IControlState) => void) {
-    return this.stateObserver.subscribe(cb);
+  public subscribeToStateChange(cb: (state: IControlState) => void): Subscription {
+    return this.stateSubject.subscribe(cb);
   }
 
   public markAsTouched(dontNotify: boolean): void {

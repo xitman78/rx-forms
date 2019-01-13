@@ -10,12 +10,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { Subject } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
 var RxControl = /** @class */ (function () {
+    // private stateObserver: Observable<IControlState>;
     function RxControl(initialValue, validators) {
         if (initialValue === void 0) { initialValue = ''; }
         if (validators === void 0) { validators = []; }
-        var _this = this;
         this.initialValue = initialValue;
         this.validators = validators;
         var validation = this.validateValue(initialValue);
@@ -31,12 +30,13 @@ var RxControl = /** @class */ (function () {
         this.initialValue = initialValue;
         this.subject = new Subject();
         this.stateSubject = new Subject();
-        this.observer = new Observable(function (observer) {
-            _this.subject.subscribe(observer);
+        /*this.observer = new Observable<IControlState>(observer => {
+          this.subject.subscribe(observer);
         });
-        this.stateObserver = new Observable(function (observer) {
-            _this.stateSubject.subscribe(observer);
-        });
+    
+        this.stateObserver = new Observable<IControlState>(observer => {
+          this.stateSubject.subscribe(observer);
+        });*/
     }
     RxControl.prototype.setName = function (name) {
         this.state.controlName = name;
@@ -85,10 +85,10 @@ var RxControl = /** @class */ (function () {
         return this.state.value;
     };
     RxControl.prototype.subscribe = function (cb) {
-        return this.observer.subscribe(cb);
+        return this.subject.subscribe(cb);
     };
     RxControl.prototype.subscribeToStateChange = function (cb) {
-        return this.stateObserver.subscribe(cb);
+        return this.stateSubject.subscribe(cb);
     };
     RxControl.prototype.markAsTouched = function (dontNotify) {
         var newState = __assign({}, this.state, { touched: true });

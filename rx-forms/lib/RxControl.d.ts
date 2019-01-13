@@ -4,9 +4,7 @@ declare class RxControl implements RxCommon {
     private validators;
     private state;
     private subject;
-    private observer;
     private stateSubject;
-    private stateObserver;
     constructor(initialValue?: any, validators?: RxValidator[]);
     setName(name: string): void;
     loadValue(value: any): void;
